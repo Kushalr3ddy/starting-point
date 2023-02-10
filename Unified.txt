@@ -1,0 +1,8 @@
+unified
+|
+-do da nmap
+-3 ports are open 22 8080 8443
+-go to 8443 for the service name
+|
+-visit the site on 8443
+-the version of the software will be on the site itself

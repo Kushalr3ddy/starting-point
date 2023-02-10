@@ -1,0 +1,88 @@
+oopsie
+|
+-do da nmap
+-2 ports are open 22 and 80
+|
+-visit the port 80
+|
+-start burp with firefox as proxy
+|
+-visit the site and goto target > sitemap
+|
+note: first check the shid in sitemap if you get then noice else do da gobuster
+|
+-you will find a login page with cdn-cgi/login/script.js
+-remove that script.js else it wont show up
+|
+-login as guest
+|
+-goto da uploads
+|
+-it need admin access
+|
+-check out all the links at the top that account branding clients uploads etc
+|
+-if you goto account you get weird url with id=2 in url
+-change that from 0 1 2 ....
+|
+-when it 1 you get the access id for da admin 34322
+|
+-put the stuff in the request when going to the uploads page
+|
+-now you can upload files
+|
+-upload a php reverse shell it in /usr/share/webshells/php/php-reverse-shell.php or seomthing
+note: change the ip and port to which you will be listening to
+-do a gobuster dir to find where the file is uploaded
+|
+- you will get /uploads in taht you will still need to use admin and 34322 to access the reverse-shell
+note: if it not work then reupload and keep the upload tab open so it wont be pein 
+|
+-get the reverse shell
+|
+-once you get use find to find for html or php files
+|
+-use find / -type f -name "*.php" -o -name "*.html" here -o means or you can use ! and -and also
+|
+-you will find some php files in /var/www/html/cdn-cgi/login
+-cat everything and grep for password
+-liek this cat * | grep -i "pass"
+|
+-some weird password in index.php and db.php
+|
+-db also has mention of a user named robert
+-trying to change user to robert using su robert lmao no
+-cause webshell is not actual shell
+|
+-use python3 -c 'import pty;pty.spawn("/bin/bash")' to get an actual shell
+|
+-after getting change to user robert
+|
+-do id you will get bugtracker as the group name
+|
+-find ze executable with bugtracker setuid using find / -type f -group bugtracker
+|
+-you get bugtracker executable in /usr/bin/bugtracker 
+-do file ls and it show it has a suid hehe boi
+|
+-try to execute it and it ask for something giev random input
+-it is calling cat
+-since cat is executable and is in path
+-fuk with path so it call yer executable
+|
+-maek a directory or a file with /bin/bash in it and giev it executable permission
+-put ze path of the fiel in the actual $PATH variable
+|
+-for the user flag it in roberts home directory so cat that
+|
+-for the root flag name the file cat itself and put in /tmp directory or anywhere wher you haev enough permission
+|
+-put /tmp/cat to path liek export PATH =tmp/cat:$PATH
+note: use export to set the path instead of set
+|
+-execute the suid binary again
+|
+-root shell lmao
+|
+-cat the flag in /root
+-use head cause cat is fked

